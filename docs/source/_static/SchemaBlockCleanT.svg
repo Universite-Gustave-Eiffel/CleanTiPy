@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="130.46501mm"
+   height="177.8056mm"
+   viewBox="0 0 130.46501 177.8056"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   sodipodi:docname="SchemaBlockCleanT.svg"
+   inkscape:export-filename="SchemaBlockCleanT.pdf"
+   inkscape:export-xdpi="150"
+   inkscape:export-ydpi="150"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="2.0000001"
+     inkscape:cx="195.99999"
+     inkscape:cy="239.24999"
+     inkscape:window-width="2560"
+     inkscape:window-height="1377"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g33" />
+  <defs
+     id="defs1">
+    <pattern
+       inkscape:collect="always"
+       xlink:href="#Wave"
+       preserveAspectRatio="xMidYMid"
+       id="pattern31"
+       patternTransform="scale(0.21)"
+       x="0"
+       y="0" />
+    <pattern
+       patternUnits="userSpaceOnUse"
+       width="24"
+       height="10"
+       preserveAspectRatio="xMidYMid"
+       id="Wave"
+       style="fill:#ff9955"
+       x="0"
+       y="0"
+       inkscape:collect="always"
+       inkscape:isstock="true"
+       inkscape:label="Onde">
+      <g
+         id="wave_g"
+         style="display:inline">
+        <path
+           d="M 12,-2 C 9.1666695,-2 7.1679672,-0.56445187 5.4179687,0.68554687 3.6679703,1.9355456 2.1666645,3 0,3 V 5 C 2.8333305,5 4.8320328,3.5644519 6.5820312,2.3144531 8.3320297,1.0644544 9.8333355,0 12,0 14.166665,0 15.667971,1.0644544 17.417969,2.3144531 19.167967,3.5644519 21.166669,5 24,5 V 3 C 21.833335,3 20.332029,1.9355456 18.582031,0.68554687 16.832033,-0.56445189 14.833331,-2 12,-2 Z"
+           id="path3" />
+        <path
+           d="M 12,3 C 9.1666695,3 7.1679672,4.4355481 5.4179687,5.6855469 3.6679703,6.9355456 2.1666645,8 0,8 v 2 C 2.8333305,10 4.8320328,8.5644519 6.5820312,7.3144531 8.3320297,6.0644544 9.8333355,5 12,5 14.166665,5 15.667971,6.0644544 17.417969,7.3144531 19.167967,8.5644519 21.166669,10 24,10 V 8 C 21.833335,8 20.332029,6.9355456 18.582031,5.6855469 16.832033,4.4355481 14.833331,3 12,3 Z"
+           id="path4" />
+        <path
+           d="M 12,8 C 9.1666695,8 7.1679672,9.4355481 5.4179687,10.685547 3.6679703,11.935546 2.1666645,13 0,13 v 2 C 2.8333305,15 4.8320328,13.564452 6.5820312,12.314453 8.3320297,11.064454 9.8333355,10 12,10 c 2.166665,0 3.667971,1.064454 5.417969,2.314453 C 19.167967,13.564452 21.166669,15 24,15 V 13 C 21.833335,13 20.332029,11.935546 18.582031,10.685547 16.832033,9.4355481 14.833331,8 12,8 Z"
+           id="path5" />
+      </g>
+    </pattern>
+    <rect
+       x="464.76086"
+       y="569.85938"
+       width="75.320984"
+       height="8.0518322"
+       id="rect22" />
+    <linearGradient
+       id="linearGradient19"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop19" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop20" />
+    </linearGradient>
+    <marker
+       style="overflow:visible"
+       id="DartArrow"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Dart arrow"
+       markerWidth="0.25"
+       markerHeight="0.5"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="none">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path6" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker8"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Dart arrow"
+       markerWidth="0.30000001"
+       markerHeight="0.60000002"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="none">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path8" />
+    </marker>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient19"
+       id="linearGradient20"
+       x1="91.517021"
+       y1="122.872"
+       x2="97.915718"
+       y2="122.872"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-1.1617614,-1.1617614)" />
+    <marker
+       style="overflow:visible"
+       id="DartArrow-7"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Dart arrow"
+       markerWidth="0.25"
+       markerHeight="0.5"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="none">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path6-6" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker8-7"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Dart arrow"
+       markerWidth="0.30000001"
+       markerHeight="0.60000002"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="none">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path8-9" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="DartArrow-8"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Dart arrow"
+       markerWidth="0.25"
+       markerHeight="0.5"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="none">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path6-60" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker8-7-5"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Dart arrow"
+       markerWidth="0.30000001"
+       markerHeight="0.60000002"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="none">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path8-9-0" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker8-7-5-4"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Dart arrow"
+       markerWidth="0.30000001"
+       markerHeight="0.60000002"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="none">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path8-9-0-4" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker8-7-8"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Dart arrow"
+       markerWidth="0.30000001"
+       markerHeight="0.60000002"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="none">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path8-9-4" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-61.851181,-23.937332)">
+    <rect
+       style="opacity:0.797403;fill:#ffd5d5;stroke-width:0.217225"
+       id="rect1"
+       width="130.46501"
+       height="154.48428"
+       x="61.851181"
+       y="47.258656" />
+    <rect
+       style="opacity:0.797403;fill:#d35f5f;stroke-width:0.240805"
+       id="rect2"
+       width="103.53548"
+       height="127.46836"
+       x="69.407654"
+       y="72.846649" />
+    <rect
+       style="fill:#e9afaf;fill-opacity:1;stroke:none;stroke-width:5.28039;stroke-opacity:1"
+       id="rect6"
+       width="95.223564"
+       height="111.43019"
+       x="75.700996"
+       y="87.622635" />
+    <g
+       id="g22"
+       transform="translate(0,13.229169)">
+      <rect
+         style="opacity:1;fill:#e9ddaf;stroke-width:0.201669"
+         id="rect4"
+         width="74.114929"
+         height="16.821901"
+         x="94.864777"
+         y="144.2863" />
+      <text
+         xml:space="preserve"
+         style="font-size:3.175px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4.96501;stroke-opacity:1"
+         x="98.499435"
+         y="153.28217"
+         id="text8-6-9"><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.175px;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';stroke-width:4.965"
+           x="98.499435"
+           y="153.28217"
+           id="tspan8-4-3">Propagation of source signal to microphone</tspan><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.11667px;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';stroke-width:4.965"
+           x="98.499435"
+           y="157.36165"
+           id="tspan18-9">quadratic interpolation for best quality</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:3.175px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;opacity:0.797403;fill:#1a1a1a;stroke-width:0.264583"
+         x="95.088539"
+         y="147.22772"
+         id="text4-8"><tspan
+           sodipodi:role="line"
+           id="tspan4-8"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';stroke-width:0.264583"
+           x="95.088539"
+           y="147.22772">Propagation.MovingSrcSimu_t</tspan></text>
+    </g>
+    <g
+       id="g21"
+       transform="translate(29.618149,1.5708901)">
+      <rect
+         style="opacity:1;fill:#ffe680;stroke-width:0.171245"
+         id="rect3-5"
+         width="74.114922"
+         height="16.449539"
+         x="65.246628"
+         y="126.26587" />
+      <text
+         xml:space="preserve"
+         style="font-size:3.175px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;opacity:0.797403;fill:#1a1a1a;stroke-width:0.264583"
+         x="65.524063"
+         y="129.20731"
+         id="text4-5-2"><tspan
+           sodipodi:role="line"
+           id="tspan4-1-7"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';stroke-width:0.264583"
+           x="65.524063"
+           y="129.20731">InverseMethods.Beamforming_t_traj</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:3.175px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4.96501;stroke-opacity:1"
+         x="68.881287"
+         y="135.30746"
+         id="text8-6"><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.175px;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';stroke-width:4.965"
+           x="68.881287"
+           y="135.30746"
+           id="tspan8-4">Beamforming over selected source</tspan><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.11667px;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';stroke-width:4.965"
+           x="68.881287"
+           y="139.38695"
+           id="tspan18">quadratic interpolation for best quality</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;opacity:0.797403;fill:#1a1a1a;stroke-width:0.264583"
+       x="70.68718"
+       y="75.788818"
+       id="text4"><tspan
+         sodipodi:role="line"
+         id="tspan4"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';stroke-width:0.264583"
+         x="70.68718"
+         y="75.788818">DeconvolutionMethods.CleanT</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;opacity:0.797403;fill:#1a1a1a;stroke-width:0.264583"
+       x="62.622631"
+       y="51.259163"
+       id="text5"><tspan
+         sodipodi:role="line"
+         id="tspan5"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';stroke-width:0.264583"
+         x="62.622631"
+         y="51.259163">DeconvolutionMethods.MultiFreqCleanT</tspan></text>
+    <g
+       id="g20"
+       transform="translate(21.94191,-3.8360767)">
+      <rect
+         style="opacity:1;fill:#ffe680;stroke-width:0.186392"
+         id="rect3"
+         width="74.114922"
+         height="19.487991"
+         x="72.922867"
+         y="100.01398" />
+      <text
+         xml:space="preserve"
+         style="font-size:3.175px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;opacity:0.797403;fill:#1a1a1a;stroke-width:0.264583"
+         x="73.325035"
+         y="102.97202"
+         id="text4-5"><tspan
+           sodipodi:role="line"
+           id="tspan4-1"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';stroke-width:0.264583"
+           x="73.325035"
+           y="102.97202">InverseMethods.Beamforming_t_traj</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:3.175px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;white-space:pre;inline-size:59.6336;display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4.96501;stroke-opacity:1"
+         x="76.682259"
+         y="109.07218"
+         id="text8"><tspan
+           x="76.682259"
+           y="109.07218"
+           id="tspan2"><tspan
+             style="font-weight:bold;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';stroke-width:4.965"
+             id="tspan1">Time domain moving source beamforming </tspan></tspan><tspan
+           x="76.682259"
+           y="113.15166"
+           id="tspan8"><tspan
+             style="font-weight:bold;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';stroke-width:4.965"
+             id="tspan7">over the grid
+</tspan></tspan><tspan
+           x="76.682259"
+           y="117.23113"
+           id="tspan17"><tspan
+             style="font-weight:bold;font-size:2.11667px;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';stroke-width:4.965"
+             id="tspan9">linear interpolation to speed-up computation</tspan></tspan></text>
+    </g>
+    <g
+       id="g7"
+       transform="translate(-2.4012766,-28.183404)">
+      <g
+         id="g15"
+         style="fill:none;stroke:#ff9955;stroke-opacity:1">
+        <path
+           style="opacity:1;fill:none;stroke:#ff9955;stroke-width:4.965;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#DartArrow)"
+           d="M 186.26828,67.378176 V 218.69118 h -72.33572"
+           id="path9"
+           sodipodi:nodetypes="ccc" />
+        <path
+           d="M 186.26788,166.76549 H 175.31589"
+           style="fill:none;stroke:#ff9955;stroke-width:4.965;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#DartArrow)"
+           id="path1" />
+        <path
+           d="M 186.26788,198.58275 H 175.31589"
+           style="fill:none;stroke:#ff9955;stroke-width:4.965;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#DartArrow-8)"
+           id="path1-4" />
+        <path
+           d="M 186.26788,137.13191 H 175.31589"
+           style="fill:none;stroke:#ff9955;stroke-width:4.965;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#DartArrow-7)"
+           id="path1-8" />
+        <path
+           d="M 186.26788,107.56621 H 175.31589"
+           style="fill:none;stroke:#ff9955;stroke-width:4.965;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#DartArrow)"
+           id="path1-6" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;line-height:1;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;white-space:pre;inline-size:33.849;display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.078;stroke-dasharray:none;stroke-opacity:1"
+           x="107.85347"
+           y="218.17609"
+           id="text24"
+           transform="translate(-4.5745827,-8.9451569)"><tspan
+             x="107.85347"
+             y="218.17609"
+             id="tspan22"><tspan
+               style="font-family:Calibri;-inkscape-font-specification:Calibri"
+               id="tspan20">Propagated signals</tspan></tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;line-height:1;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;white-space:pre;inline-size:52.0481;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.078;stroke-dasharray:none;stroke-opacity:1"
+           x="107.85347"
+           y="218.17609"
+           id="text24-3"
+           transform="translate(15.745121,1.4310978)"><tspan
+             x="107.85347"
+             y="218.17609"
+             id="tspan24"><tspan
+               style="font-weight:bold;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';fill:#ffffff"
+               id="tspan23">Microphonic (filtered) signals</tspan></tspan></text>
+      </g>
+      <g
+         id="g33"
+         transform="translate(0,7.9375004)">
+        <rect
+           style="opacity:1;fill:#ff9955;fill-opacity:1;stroke:none;stroke-width:4.96501;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1"
+           id="rect15"
+           width="34.288822"
+           height="23.321329"
+           x="160.42865"
+           y="44.183235" />
+        <text
+           xml:space="preserve"
+           style="font-size:2.46944px;line-height:1;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4.96501;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1"
+           x="163.039"
+           y="50.796059"
+           id="text10"><tspan
+             sodipodi:role="line"
+             id="tspan10"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;line-height:1;font-family:Calibri;-inkscape-font-specification:Calibri;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4.965"
+             x="163.039"
+             y="50.796059">microphone signals</tspan><tspan
+             sodipodi:role="line"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;line-height:1;font-family:Calibri;-inkscape-font-specification:Calibri;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4.965"
+             x="163.039"
+             y="53.35162"
+             id="tspan13">microphone positions, </tspan><tspan
+             sodipodi:role="line"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;line-height:1;font-family:Calibri;-inkscape-font-specification:Calibri;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4.965"
+             x="163.039"
+             y="55.907185"
+             id="tspan11">grid position over time,</tspan><tspan
+             sodipodi:role="line"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;line-height:1;font-family:Calibri;-inkscape-font-specification:Calibri;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4.965"
+             x="163.039"
+             y="58.462746"
+             id="tspan12">grid rotation angles over time</tspan><tspan
+             sodipodi:role="line"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;line-height:1;font-family:Calibri;-inkscape-font-specification:Calibri;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4.965"
+             x="163.039"
+             y="61.018307"
+             id="tspan14">wind speed (x,y,z)</tspan><tspan
+             sodipodi:role="line"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.46944px;line-height:1;font-family:Calibri;-inkscape-font-specification:Calibri;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4.965"
+             x="163.039"
+             y="63.573868"
+             id="tspan15">speed of sound (scalar)</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:2.11667px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:4.96501;stroke-linecap:butt;stroke-dasharray:none;stroke-opacity:1"
+           x="161.81346"
+           y="47.070721"
+           id="text16"><tspan
+             sodipodi:role="line"
+             id="tspan16"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';stroke-width:4.965"
+             x="161.81346"
+             y="47.070721">DATA</tspan></text>
+      </g>
+    </g>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.578;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker8)"
+       d="m 98.490809,117.04548 v 7.28251"
+       id="path7-6"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;opacity:1;fill:#e9afaf;fill-opacity:1;stroke:none;stroke-width:4.96501;stroke-opacity:1"
+       x="76.82444"
+       y="91.280357"
+       id="text7"><tspan
+         sodipodi:role="line"
+         id="tspan6"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Calibri;-inkscape-font-specification:'Calibri Italic';fill:#000000;stroke-width:4.965"
+         x="76.82444"
+         y="91.280357">For each angular selection of the trajectory</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;line-height:0;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.078;stroke-dasharray:none;stroke-opacity:1"
+       x="102.32079"
+       y="121.97482"
+       id="text19"><tspan
+         sodipodi:role="line"
+         id="tspan19"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.078;stroke-dasharray:none"
+         x="102.32079"
+         y="121.97482">Main source selection</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;line-height:0.6;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.078;stroke-dasharray:none"
+         x="102.32079"
+         y="124.29271"
+         id="tspan21">(broadband or tonal)</tspan></text>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.578;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker8-7)"
+       d="m 98.490809,145.84596 v 7.28251"
+       id="path7-6-4"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.578;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker8-7-8)"
+       d="m 134.03891,145.87381 v 3.64159 h 3.21719"
+       id="path7-6-4-7"
+       sodipodi:nodetypes="ccc" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.578;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker8-7-5)"
+       d="m 98.510609,175.39571 v 7.28251"
+       id="path7-6-4-0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.578;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker8-7-5-4)"
+       d="m 93.234737,190.85563 h -6.816376 v -87.1423 h 4.02062"
+       id="path7-6-4-0-0"
+       sodipodi:nodetypes="cccc" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;line-height:1;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;white-space:pre;inline-size:22.3012;display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.078;stroke-dasharray:none;stroke-opacity:1"
+       x="110.32668"
+       y="150.7753"
+       id="text19-3"
+       transform="translate(-8.9958338,-2.1166667)"><tspan
+         x="110.32668"
+         y="150.7753"
+         id="tspan27"><tspan
+           style="font-family:Calibri;-inkscape-font-specification:Calibri;stroke:none"
+           id="tspan26">Filtering </tspan></tspan><tspan
+         x="110.32668"
+         y="153.9813"
+         id="tspan29"><tspan
+           style="font-family:Calibri;-inkscape-font-specification:Calibri;stroke:none"
+           id="tspan28">extracted signal  
+</tspan></tspan><tspan
+         x="110.32668"
+         y="157.18731"
+         id="tspan31"><tspan
+           style="font-size:2.11667px;font-family:Calibri;-inkscape-font-specification:Calibri;stroke:none"
+           id="tspan30">(if detected as tonal)</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text22"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect22);display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.294803;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;line-height:1;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;white-space:pre;inline-size:52.0481;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.078;stroke-dasharray:none;stroke-opacity:1"
+       x="107.85347"
+       y="218.17609"
+       id="text24-3-8"
+       transform="rotate(-90,70.730612,205.35422)"><tspan
+         x="107.85347"
+         y="218.17609"
+         id="tspan33"><tspan
+           style="font-family:Calibri;-inkscape-font-specification:Calibri"
+           id="tspan32">New microphonic signals</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;line-height:1;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;white-space:pre;inline-size:79.2133;display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.078;stroke-dasharray:none;stroke-opacity:1"
+       x="107.85347"
+       y="218.17609"
+       id="text24-3-8-1"
+       transform="rotate(-90,81.429318,209.35074)"><tspan
+         x="107.85347"
+         y="218.17609"
+         id="tspan36"><tspan
+   style="font-style:italic;font-family:Calibri;-inkscape-font-specification:'Calibri Italic'"
+   id="tspan34">iteration until residual energy reaches</tspan> <tspan
+   style="font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono'"
+   id="tspan35">E_criterion</tspan></tspan></text>
+    <g
+       id="g25"
+       transform="translate(-10.763558,-28.258448)"
+       style="fill:none;stroke:#ff9955;stroke-opacity:1">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.0052px;line-height:1;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.348376;stroke-dasharray:none;stroke-opacity:1"
+         x="107.18169"
+         y="222.72943"
+         id="text25"><tspan
+           sodipodi:role="line"
+           id="tspan25"
+           style="font-size:13.0052px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.348376"
+           x="107.18169"
+           y="222.72943">-</tspan></text>
+      <circle
+         style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.778;stroke-dasharray:none;stroke-opacity:1"
+         id="path24"
+         cx="109.27553"
+         cy="219.24405"
+         r="3.0963831" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;line-height:1;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;white-space:pre;inline-size:25.1217;display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.777999;stroke-dasharray:none;stroke-opacity:1"
+       x="137.93625"
+       y="148.81598"
+       id="text26"
+       transform="translate(3.7041668)"><tspan
+         x="137.93625"
+         y="148.81598"
+         id="tspan38"><tspan
+           style="font-weight:bold;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';stroke-width:0.778"
+           id="tspan37">Source data </tspan></tspan><tspan
+         x="137.93625"
+         y="152.10172"
+         id="tspan40"><tspan
+           style="font-weight:bold;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';stroke-width:0.778"
+           id="tspan39">storage</tspan></tspan></text>
+    <g
+       id="g32"
+       transform="translate(0,7.4083337)">
+      <rect
+         style="opacity:1;fill:#afdde9;stroke-width:0.471103"
+         id="rect5"
+         width="125.39784"
+         height="13.462272"
+         x="66.67379"
+         y="76.082558"
+         transform="translate(-2.4012766,-28.183403)" />
+      <text
+         xml:space="preserve"
+         style="font-size:3.175px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;white-space:pre;inline-size:87.5403;display:inline;opacity:0.797403;fill:#afdde9;stroke-width:0.264583"
+         x="64.455322"
+         y="80.632339"
+         id="text6"
+         transform="translate(2.7022142,-29.043815)"><tspan
+           x="64.455322"
+           y="80.632339"
+           id="tspan42"><tspan
+             style="font-weight:bold;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';fill:#000000"
+             id="tspan41">Filterring signals on the selected frequency band
+</tspan></tspan><tspan
+           x="64.455322"
+           y="84.711814"
+           id="tspan44"><tspan
+             style="font-weight:bold;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';fill:#000000"
+             id="tspan43">(octave or third-octave) in the source-related time scale
+</tspan></tspan><tspan
+           x="64.455322"
+           y="88.791289"
+           id="tspan46"><tspan
+             style="font-weight:bold;font-size:2.11667px;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';fill:#000000"
+             id="tspan45">(Dedopplerisation =&gt; Filtering =&gt; Dopplerisation)</tspan></tspan></text>
+      <rect
+         style="fill:url(#pattern31);fill-opacity:1;stroke:none;stroke-width:0.780072;stroke-dasharray:none;stroke-opacity:1"
+         id="rect28"
+         width="4.9552455"
+         height="13.649363"
+         x="181.3844"
+         y="47.899155" />
+    </g>
+  </g>
+</svg>
