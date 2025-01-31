@@ -11,7 +11,7 @@ This code is developed in Python 3.11 and therefore back-compatibility is not gu
 Install the required packages with
 
 ```
-pip install -r requirements.txt
+pip install .
 ```
 
 ## Usage
@@ -36,6 +36,14 @@ The full documentation of the project is available in pdf [here](docs/build/late
 
 ```
 sphinx-build -b html docs/source/ docs/build/html
+```
+
+## packaging
+
+Reminder: to make the code a python package use :
+
+```
+py -m build
 ```
 
 ## Support

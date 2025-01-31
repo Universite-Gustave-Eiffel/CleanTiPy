@@ -1,0 +1,40 @@
+[project]
+name = "CleanTiPy"
+version = "0.6.0"
+authors = [
+  { name="Raphaël LEIBA", email="raphael.leiba@univ-eiffel.fr" },
+]
+packages = ["cleantipy"]
+description = "An open-source implementation of CLEAN-T acoustic imaging technique"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["joblib>=1.2.0", "matplotlib>=3.7.1", "numpy>=1.23.5", "psutil>=5.9.4", "pyFFTW>=0.13.1", "scipy>=1.13.0", "SimpleSpectral>=1.0.0"]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: European Union Public Licence 1.2 (EUPL 1.2)",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+license = "EUPL-1.2"
+license-files = ["LICENSE.txt"]
+
+[project.urls]
+Homepage = "https://github.com/Universite-Gustave-Eiffel/CleanTiPy"
+Issues = "https://github.com/Universite-Gustave-Eiffel/CleanTiPy/issues"
+
+[build-system]
+# requires = ["setuptools>=61.0","joblib>=1.2.0", "matplotlib>=3.7.1", "numpy>=1.23.5", "psutil>=5.9.4", "pyFFTW>=0.13.1", "scipy>=1.13.0", "SimpleSpectral>=1.0.0"]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+exclude = [
+  "/.*",
+  "/docs",
+  "/examples",
+  "/cleantipy/__pycache__",
+  "requirements.txt",
+]

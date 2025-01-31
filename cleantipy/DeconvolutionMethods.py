@@ -15,9 +15,9 @@ import pylab as pl
 import time
 import sys
 
-from InverseMethods import Beamforming_t_traj, butter_bandpass_filter, butter_lowpass_filter
-from CommonFunctions import Doppler, InterpolateTimeTrajectory
-from Propagation import MovingSrcSimu_t
+from .InverseMethods import Beamforming_t_traj, butter_bandpass_filter, butter_lowpass_filter
+from .CommonFunctions import Doppler, InterpolateTimeTrajectory
+from .Propagation import MovingSrcSimu_t
 from scipy.ndimage import gaussian_filter
 from scipy.interpolate import CubicSpline, interp1d, RegularGridInterpolator
 from scipy import signal
@@ -145,9 +145,11 @@ class CleanT:
             self.Nt_interp = self.t_traj_interp.size
 
             self.computeAngleWindows()
-            self.ind_total_masks, = np.where(np.sum(self.TemporalMask,axis=0)!=0)
         else:
-            self.ind_total_masks = np.arange(self.Nt,dtype=np.int64)
+            self.TemporalMask = np.ones((1,self.Nt))
+            # self.ind_total_masks = np.arange(self.Nt,dtype=np.int64)
+            self.indsMask,= np.where(self.TemporalMask[0,:]!=0)
+        self.ind_total_masks, = np.where(np.sum(self.TemporalMask,axis=0)!=0)
         
 
         
@@ -212,8 +214,14 @@ class CleanT:
         i_bb = np.argmax(dB_)
         
         if self.findTonal:
-            nfft = 2**int(np.ceil(np.log2(256*(1+np.log10(self.bf.fs/1500)))))
-            N_av = nfft//10
+            if self.fc is not None:
+                nfft = 2**int(np.ceil(np.log2(256*(1+np.log10(self.bf.fs/1500)))))
+                N_av = nfft//10
+                freq_resolution = 1024//nfft
+            else:
+                nfft = 2**int(np.ceil(np.log2(1024*(1+np.log10(self.bf.fs/1500)))))
+                N_av = nfft//40                
+                freq_resolution = 4096//nfft              
     
     
             t1 = time.time()
@@ -239,7 +247,6 @@ class CleanT:
                 print("Spectrum computation took %.1f s"%(t2-t1))
             
             ind_fmax = np.argmax(Spec,axis=-1)
-            freq_resolution = 1024//nfft
             tonalIndicator = np.zeros((len(ind_fmax),))
             
             for ii in range(len(ind_fmax)):
@@ -249,7 +256,11 @@ class CleanT:
             self.tonal_crit = np.max(Spec[i_ton,:])
         
             self.MaxTonalMap = tonalIndicator.reshape((self.ny,self.nx))
-            
+
+            tonal_threshold = 20
+            if self.fc is None:
+                tonal_threshold *= self.fs
+
             if self.monitor:
                 gs_kw = dict(width_ratios=[1.4, 1.4,1], height_ratios=[1, 2])
                 fig = pl.figure(num="Monitor", figsize=(12, 4.5))
@@ -279,14 +290,19 @@ class CleanT:
                 fig.suptitle(self.tonal_crit)
                 directory = "monitor"
                 Path(directory).mkdir(parents=True, exist_ok=True)
-                fig.savefig(directory+"/%dHz_Win%d_%d" %(self.fc,aa,len(self.E[aa])),transparent=True)
+                if aa is None:
+                    if self.fc is None:
+                        fig.savefig(directory+"/FullSpectrum_noWin_%d" %(len(self.E)),transparent=True)
+                    else:
+                        fig.savefig(directory+"/%dHz_noWin_%d" %(self.fc,len(self.E)),transparent=True)
+                else:
+                    fig.savefig(directory+"/%dHz_Win%d_%d" %(self.fc,aa,len(self.E[aa])),transparent=True)
                 pl.pause(0.01)
                 
             if self.debug:
                 print(np.max(Spec[i_ton,:]),np.median(Spec[i_ton,:]),self.tonal_crit,i_ton,i_bb)
-                
 
-            if self.tonal_crit<20  :
+            if self.tonal_crit < tonal_threshold:
                 i_max = i_bb
                 src_type = 0
                 return i_max, (src_type,)
@@ -643,9 +659,14 @@ class CleanT:
             else:
                 self.bf.compute(parrallel=parrallel, interpolation='linear')
                 
-            # Compute the acoustic map
-            self.E.append(np.sum(np.std(self.bf.BF_t,axis=-1)**2))
-            dB_ = 20*np.log10(np.std(self.bf.BF_t,axis=-1)/self.p_ref)
+            # Compute the acoustic map (over the angular window)
+            p_eff = np.std(self.bf.BF_t[:,self.indsMask]*self.TemporalMask[0,self.indsMask],axis=-1)
+            dB_ = 20*np.log10(p_eff/self.p_ref)
+            
+            if nn == 0:
+                self.debug_max_disp = np.max(dB_)
+            
+            self.E.append(np.sum(p_eff**2))
             
             print("%d - Residual energy: %.1f%%" %(nn, self.E[-1]*100/self.E[0]))
             
@@ -688,7 +709,7 @@ class CleanT:
             self.propa.mag_ = self.bf_single_pt.mag
             self.propa.pos_t = self.bf_single_pt.grid_t
             # self.propa.source_pos_rotated()
-            del self.bf_single_pt
+            # del self.bf_single_pt
             
             
             # Propagate the signal of the identified source

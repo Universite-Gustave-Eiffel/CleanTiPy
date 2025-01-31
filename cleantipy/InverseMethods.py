@@ -14,10 +14,10 @@ from scipy.signal import butter, lfilter, filtfilt, sosfilt
 import time
 import multiprocessing as mp
 from scipy.interpolate import interp1d
-from Rotations_3D import angle_to_pos
-from CommonFunctions import computeDistance, InterpolateTimeTrajectory
+from .Rotations_3D import angle_to_pos
+from .CommonFunctions import computeDistance, InterpolateTimeTrajectory
 
-# import psutil
+import psutil
 n_CPU_Threads = mp.cpu_count()
 
 
@@ -341,10 +341,10 @@ class Beamforming_t_traj:
         self.BF_t = np.zeros((self.Ni,self.Nt))
 
         info = psutil.virtual_memory()
-        
-        if self.Nt_traj*self.Nm*self.Ni*8*2 + self.Nt*self.Ni*8 + self.Nt*self.Nm*8 > info.available: # 3 variables (r_mi_t & mag) + BF_t + p_t
+        memory_needed = self.Nt_traj*self.Nm*self.Ni*8*2 + self.Nt*self.Ni*8 + self.Nt*self.Nm*8  # 3 variables (r_mi_t & mag) + BF_t + p_t
+        if memory_needed > info.available:
             if self.debug:
-                print("Not enough RAM available")
+                print("Not enough RAM available (%.1f GB), approx. memory needed: %.1f GB" %(info.available/1024/1024/1024, memory_needed/1024/1024/1024))
             if self.Nt_traj*self.Nm*self.Ni*4*2 + self.Nt*self.Ni*8 + self.Nt*self.Nm*8 < info.available: # 3 variables (r_mi_t & mag in float 32) + BF_t + p_t
                 if self.debug:
                     print("Passing temporary variables in float 32")
@@ -356,21 +356,38 @@ class Beamforming_t_traj:
         
 
 
-    def grid_pos_rotated(self,grid,traj,ang):
+    def grid_pos_rotated(self,grid,traj,ang,parrallel=True):
         self.grid_t = np.zeros((grid.shape[0],self.Nt_,3),dtype=self.internVar_dtype) 
         
-        if self.angles is None:
-            if self.debug:
-                print('No angle considered') 
+        # if self.angles is None:
+        #     if self.debug:
+        #         print('No angle considered') 
             
-        for i in range(grid.shape[0]):
-            grid_tiled = np.tile(grid[i,:],traj.shape[0]).reshape((traj.shape[0],3)).astype(np.float64)
-            if self.angles is not(None):
-                grid_tiled = angle_to_pos(grid_tiled,ang[:,0],ang[:,1],ang[:,2])
-            grid_tiled += self.traj_.astype(np.float64)
+        # for i in range(grid.shape[0]):
+        #     grid_tiled = np.tile(grid[i,:],traj.shape[0]).reshape((traj.shape[0],3)).astype(np.float64)
+        #     if self.angles is not(None):
+        #         grid_tiled = angle_to_pos(grid_tiled,ang[:,0],ang[:,1],ang[:,2])
+        #     grid_tiled += self.traj_.astype(np.float64)
             
-            # Storing the position of sources along the trajectory
-            self.grid_t[i,:,:] =  grid_tiled 
+        #     # Storing the position of sources along the trajectory
+        #     self.grid_t[i,:,:] =  grid_tiled 
+ 
+        if not(parrallel):
+            for i in range(grid.shape[0]):
+                self.grid_t[i,:,:] = self.grid_pos_rotated_core(i,grid,traj,ang)
+
+        else:
+            tmp = Parallel(n_jobs=n_CPU_Threads)(delayed(self.grid_pos_rotated_core)(i,grid,traj,ang) for i in range(grid.shape[0]))
+            for i in range(grid.shape[0]):
+                self.grid_t[i,:,:] = tmp[i]
+
+    def grid_pos_rotated_core(self,i,grid,traj,ang):
+        grid_tiled = np.tile(grid[i,:],traj.shape[0]).reshape((traj.shape[0],3)).astype(np.float64)
+        if self.angles is not(None):
+            grid_tiled = angle_to_pos(grid_tiled,ang[:,0],ang[:,1],ang[:,2])
+        grid_tiled += self.traj_.astype(np.float64)
+        return grid_tiled
+
 
     def compute(self,parrallel=True, interpolation='linear'):
         """
@@ -447,9 +464,13 @@ class Beamforming_t_traj:
         self.fs_traj_ = 1/(t_traj[1] - t_traj[0])
         self.ang_ = ang 
         
-        self.grid_pos_rotated(grid,traj,ang)
+        t0 = time.time() 
+        self.grid_pos_rotated(grid,traj,ang,parrallel)
 
         t1 = time.time()   
+        if self.debug:
+            print("grid_pos_rotated function computation took %.1f s"%(t1-t0))
+
         self.r_mi_t = np.zeros((geom.shape[0],grid.shape[0],self.Nt_),dtype=self.internVar_dtype)
         self.mag = np.zeros((geom.shape[0],grid.shape[0],self.Nt_),dtype=self.internVar_dtype)
 

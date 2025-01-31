@@ -9,22 +9,23 @@ library using time domain generated signal simulated using the Simulations libra
 Created on Jun 19 2023
 @author: rleiba
 """
-import sys
-sys.path.insert(0, '..')
+#import sys
+#import os
+#sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+#sys.path.insert(0, '..')
 
-from Propagation import MovingSrcSimu_t
 import numpy as np
 import pylab as pl
 import scipy.io as io
 import scipy.signal as signal
+from cleantipy.DeconvolutionMethods import MultiFreqCleanT, CleantMap
+from cleantipy.Propagation import MovingSrcSimu_t
 from Sarradj_2016_array import MicArrayGeom
-from DeconvolutionMethods import MultiFreqCleanT, CleantMap
 
 pl.close('all')
-# pl.style.use(['seaborn-v0_8','..\..\GoFast\Scripts\presentation.mplstyle'])
 
+# Set to "True" if forcing recomputation is needed
 compute = False
-
 
 pref = 2*10**-5 #Pa
 fs = 10000
@@ -88,20 +89,21 @@ if compute:
         Sig = tmp['Sig']
 
 else:
-    tmp = io.loadmat('SimuAngles.mat',variable_names=['Sig'])
-    Sig = tmp['Sig']
+    try:
+        tmp = io.loadmat('SimuAngles.mat',variable_names=['Sig'])
+        Sig = tmp['Sig']
+    except :
+        print("** SimuAngles.mat not found: Computing microphone signals **")
+        simu.compute(parrallel=True,interpolation="quadratic")
+        Sig = simu.p_t
+        io.savemat('SimuAngles.mat',{'Sig':Sig})
+
+del simu
 
 
 # Check Dopplerization
 pl.figure()
 pl.specgram(Sig[0,:],2048,fs,noverlap=1024)
-
-# # Check Dopplerization
-# pl.figure()
-# pl.plot(Sig[0,:])
-
-# toto
-del simu
 
 #%% define image plan relatively to the trajectory
 
@@ -125,8 +127,8 @@ AngleWindows = np.array([[-15, -5],
 #%% Define and compute CLEAN-T
 
 
-cleant = MultiFreqCleanT(geom,grid,traj,t,Sig,ang,t_traj,debug=True,fc=[400,800],\
-                         bandtype='octave',angleSelection=AngleWindows)
+cleant = MultiFreqCleanT(geom,grid,traj,t,Sig,ang,t_traj,debug=False,fc=[400,800],\
+                         bandtype='octave',angleSelection=AngleWindows,monitor=True)
     
 print('\n')
 print(69*'*')

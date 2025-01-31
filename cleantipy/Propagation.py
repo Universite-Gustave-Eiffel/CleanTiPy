@@ -11,9 +11,9 @@ from joblib import Parallel, delayed
 import time
 from scipy.interpolate import interp1d
 from scipy.spatial.distance import cdist
-from Rotations_3D import angle_to_pos
+from .Rotations_3D import angle_to_pos
 import sys 
-from CommonFunctions import computeDistance, InterpolateTimeTrajectory
+from .CommonFunctions import computeDistance, InterpolateTimeTrajectory
 
 
 import multiprocessing as mp
@@ -200,6 +200,7 @@ class MovingSrcSimu_t ():
         t1 = time.time()
         
         if self.Nt_traj == self.Nt: #No decimation, computation on all trajectory points
+            self.t_traj_interp = self.t_traj
             tau = self.r_ms_t/self.c
             Nt = self.Nt
             min_tau = np.min(tau[:,:,0])

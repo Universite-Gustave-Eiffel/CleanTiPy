@@ -2,29 +2,28 @@
 """
 This script is an example of use of CleanT Class in DeconvolutionMethods 
 library using time domain generated signal simulated using the Propagation library.
---Moving source--
+--Moving source with angular variation of the source--
 
 
 -------------------------------------
 Created on Jun 19 2023
 @author: rleiba
 """
-import sys
-sys.path.insert(0, '..')
+# import sys
+# sys.path.insert(0, '..')
 
-from Propagation import MovingSrcSimu_t
+from cleantipy.Propagation import MovingSrcSimu_t
 import numpy as np
 import pylab as pl
 import scipy.io as io
 import scipy.signal as signal
 from Sarradj_2016_array import MicArrayGeom
-from DeconvolutionMethods import MultiFreqCleanT, CleantMap
+from cleantipy.DeconvolutionMethods import MultiFreqCleanT, CleantMap
 
 pl.close('all')
-# pl.style.use(['seaborn-v0_8','..\..\GoFast\Scripts\presentation.mplstyle'])
 
+# Set to "True" if forcing recomputation is needed
 compute = False
-
 
 pref = 2*10**-5 #Pa
 fs = 10000
@@ -33,6 +32,7 @@ Nt = int(fs*T)
 t = np.arange(T*fs)/fs 
 
 fs_traj = 4 # 4 GPS points per seceonds
+# fs_traj = fs # same as time samplerate
 Nt_ = T*fs_traj+1
 t_traj = np.arange(Nt_)/fs_traj
 
@@ -50,7 +50,7 @@ traj = np.array([X,Y*np.ones(Nt_),Z*np.ones(Nt_)]).T
 traj += np.array([0*np.arange(Nt_),-(1-np.cos(t_traj/2))*180/np.pi,0*np.arange(Nt_)]).T
 
 # Micropophone array geometry setup
-Nmic = 64
+Nmic = 256
 x, y = MicArrayGeom(Nmic,h=2)
 z_array = 0
 
@@ -79,7 +79,7 @@ ax.set_ylim(-100,100)
 if compute: 
     try:
         print("** Computing microphone signals **")
-        simu.compute(parrallel=False,interpolation="quadratic")
+        simu.compute(parrallel=True,interpolation="quadratic")
         Sig = simu.p_t
         io.savemat('SimuAngles.mat',{'Sig':Sig})
     except :
@@ -87,22 +87,21 @@ if compute:
         Sig = tmp['Sig']
 
 else:
-    tmp = io.loadmat('SimuAngles.mat',variable_names=['Sig'])
-    Sig = tmp['Sig']
+    try:
+        tmp = io.loadmat('SimuAngles.mat',variable_names=['Sig'])
+        Sig = tmp['Sig']
+    except :
+        print("** SimuAngles.mat not found: Computing microphone signals **")
+        simu.compute(parrallel=True,interpolation="quadratic")
+        Sig = simu.p_t
+        io.savemat('SimuAngles.mat',{'Sig':Sig})
+
+del simu
 
 
 # Check Dopplerization
 pl.figure()
 pl.specgram(Sig[0,:],2048,fs,noverlap=1024)
-
-# # Check Dopplerization
-# pl.figure()
-# pl.plot(Sig[0,:])
-
-# toto
-
-
-del simu
 
 #%% define image plan relatively to the trajectory
 
