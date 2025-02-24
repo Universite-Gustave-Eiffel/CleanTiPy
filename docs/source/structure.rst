@@ -39,7 +39,7 @@ The class links to implement the CLEAN-T method are detailed in the figure below
 
 In details, CLEAN-T class is initialised with theses parameters:
 
-.. autofunction:: DeconvolutionMethods.CleanT.__init__
+.. autofunction:: cleantipy.DeconvolutionMethods.CleanT.__init__
 	:noindex:
 
 
@@ -56,17 +56,17 @@ The project is structured over three modules :
 Propagation
 -----------
 
-.. automodule:: Propagation
+.. automodule:: cleantipy.Propagation
 	:members:
 
 InverseMethods
 --------------
 
-.. automodule:: InverseMethods
+.. automodule:: cleantipy.InverseMethods
 	:members:
 
 DeconvolutionMethods
 --------------------
 
-.. automodule:: DeconvolutionMethods
+.. automodule:: cleantipy.DeconvolutionMethods
 	:members:

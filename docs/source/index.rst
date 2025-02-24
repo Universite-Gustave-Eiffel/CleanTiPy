@@ -26,7 +26,7 @@ Welcome to CleanTiPy documentation!
    Usage
    -----
 
-   Check out the :doc:`usage` section to know the required packages, how to install the code and how to use it. :ref:`Examples <Examples>` are also provided.
+   Check out the :doc:`usage` section to know the required packages, how to install the code and how to use it. :ref:`Examples <ExampleSection>` are also provided.
 
 
    Indices and tables
@@ -41,6 +41,7 @@ Welcome to CleanTiPy documentation!
 
    principle
    usage
+   examples
    structure
 
 

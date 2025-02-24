@@ -5,7 +5,7 @@ CLEAN-T core functions
 Created on Mon Jun 19 2023
 @author: rleiba
 
-##############
+
 for gathering the requirements :
 run "pipreqs ." in a terminal running in the current folder
 """
@@ -257,9 +257,9 @@ class CleanT:
         
             self.MaxTonalMap = tonalIndicator.reshape((self.ny,self.nx))
 
-            tonal_threshold = 20
-            if self.fc is None:
-                tonal_threshold *= self.fs
+            tonal_threshold = 20*(np.floor(np.log10(self.fs_traj))+1)
+            # if self.fc is None:
+            #     tonal_threshold *= self.fs
 
             if self.monitor:
                 gs_kw = dict(width_ratios=[1.4, 1.4,1], height_ratios=[1, 2])
@@ -296,7 +296,10 @@ class CleanT:
                     else:
                         fig.savefig(directory+"/%dHz_noWin_%d" %(self.fc,len(self.E)),transparent=True)
                 else:
-                    fig.savefig(directory+"/%dHz_Win%d_%d" %(self.fc,aa,len(self.E[aa])),transparent=True)
+                    if self.fc is None:
+                        fig.savefig(directory+"/FullSpectrum_Win%d_%d" %(aa,len(self.E[aa])),transparent=True)
+                    else:
+                        fig.savefig(directory+"/%dHz_Win%d_%d" %(self.fc,aa,len(self.E[aa])),transparent=True)
                 pl.pause(0.01)
                 
             if self.debug:
@@ -381,14 +384,7 @@ class CleanT:
             self.TemporalMask[aa,:] = np.convolve(TrajMask[aa,:], \
                                                   win, mode='same')
             
-        theta = np.arctan(centeredTraj[:,main_direction]/centeredTraj[:,2])*180/np.pi
-        
-        if len(self.traj) != self.Nt:
-            f_interp = interp1d(self.t_traj, theta, \
-                     kind='linear',bounds_error=False,fill_value="extrapolate")
-            self.theta = f_interp(self.t-self.t[0]) #interp in source-related coordonate
-        else:
-            self.theta = theta
+        self.theta = np.arctan(centeredTraj_interp[:,main_direction]/centeredTraj_interp[:,2])*180/np.pi
 
 
     def computeAngleWindows_traj(self):

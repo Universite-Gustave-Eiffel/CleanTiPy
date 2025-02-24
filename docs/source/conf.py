@@ -10,6 +10,37 @@ import pathlib
 import sys
 sys.path.insert(0, pathlib.Path(__file__).parents[2].resolve().as_posix())
 
+
+
+
+
+### Copy notebooks #### 
+import os
+source_notebooks = os.path.abspath('../../examples/')
+destination_notebooks = os.path.abspath('./notebook/')
+
+# create folder if not existing
+if not os.path.exists(destination_notebooks):
+    os.makedirs(destination_notebooks)
+
+# Copy files
+for file in os.listdir(source_notebooks):
+    if file.endswith(".ipynb"):
+        src = os.path.join(source_notebooks, file)
+        dst = os.path.join(destination_notebooks, file)
+        
+        # Adapted to each OS
+        if os.name == 'nt':  # Windows
+            os.system(f'copy "{src}" "{dst}"')
+        else:  # Linux/Mac
+            os.system(f'cp "{src}" "{dst}"')
+
+
+
+
+
+
+
 # def setup(app):
 #     app.add_css_file('my_style.css')
 
@@ -24,14 +55,31 @@ release = '0.6'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
+# extensions = [
+#     'sphinx_rtd_theme',
+#     'sphinx.ext.duration',
+#     'sphinx.ext.doctest',
+#     'sphinx.ext.autodoc',
+#     'sphinx.ext.autosummary',
+#     'sphinx_design',
+#     'nbsphinx',
+# ]
 extensions = [
     'sphinx_rtd_theme',
     'sphinx.ext.duration',
     'sphinx.ext.doctest',
     'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
     'sphinx_design',
+    'nbsphinx',
 ]
+# source_suffix = {
+#     '.rst': 'restructuredtext',
+#     '.ipynb': 'nbsphinx'
+#     }
+nbsphinx_execute = 'never'
+nbsphinx_markup_language = "reStructuredText"
+# nb_execution_mode = "off"
+
 
 
 
@@ -85,3 +133,4 @@ latex_elements = {
 latex_show_urls = 'footnote'
 latex_toplevel_sectioning =  'section'
 latex_theme = 'howto'
+

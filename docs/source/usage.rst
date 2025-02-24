@@ -28,25 +28,11 @@ Install the required packages with
 
     pip install -r requirements.txt
 
-.. _Examples:
+.. _ExampleSection:
 
 Examples
 ========
 
-For a multi-frequency analysis you can run this example:
+Multiple examples are available `examples folder <https://github.com/Universite-Gustave-Eiffel/CleanTiPy/tree/main/examples>`_ on GitHub with some notebooks or scripts. 
 
-.. code-block:: console
-
-    cd ./Examples/
-    python computeCleanT_multiFreq.py
-
-
-For a multi-frequency analysis with different angular selection windows you can run this example:
-
-.. code-block:: console
-
-    cd ./Examples/
-    python computeCleanT_multiFreq_multiAngles.py
-
-
-
+See examples notebook :doc:`examples`.
