@@ -60,7 +60,7 @@ Not open for contribution yet
 
 ## Authors and acknowledgment
 
-Raphaël Leiba<sup>1,2</sup>, with the help of Quentin Leclère<sup>2</sup> and Marley Nejmi<sup>2</sup>
+Raphaël Leiba<sup>1,2</sup>, with the help of Quentin Leclère<sup>2</sup>
 
 <sup>1</sup>Joint Research Unit in Environmental Acoustics [UMRAE](https://www.umrae.fr/), [Gustave Eiffel University](https://www.univ-gustave-eiffel.fr/en/) <BR>
 <sup>2</sup>Laboratory of Vibration and Acoustics [LVA](https://lva.insa-lyon.fr/), [INSA Lyon](https://www.insa-lyon.fr/en/)
