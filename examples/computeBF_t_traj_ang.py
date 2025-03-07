@@ -2,12 +2,11 @@
 """
 This script is an example of use of InverseMethods library using time domain 
 generated signal simulated using the Propagation library.
---Moving source with angular variation of the source--
 
 
--------------------------------------
-Created on Apr 05 2022
-@author: rleiba
+- Test Case : Moving source with rotation on 3 axes
+- Analysis : Single beamforming analysis along all the trajectory
+
 """
 # import sys
 # sys.path.insert(0, '..')
@@ -99,7 +98,8 @@ del simu
 
 # Check Dopplerization
 pl.figure()
-pl.specgram(Sig[0,:],2048,fs,noverlap=1024)
+pl.specgram(Sig[0,:],NFFT=2048,Fs=fs,noverlap=1024)
+pl.title("Spectrogram of the progated signal to the first microphone of the array")
 
 #%% Define and compute the Beamforming on one point (a source location)
 print('\n')
@@ -124,7 +124,8 @@ pl.plot(bf_t.BF_t[0,:])
 pl.legend(["Original signal","reconstructed signal"])
 
 pl.figure()
-pl.specgram(bf_t.BF_t[0,:],2048,fs,noverlap=1024,vmin=-20*np.log10(2)-100)
+pl.specgram(bf_t.BF_t[0,:],NFFT=2048,Fs=fs,noverlap=1024,vmin=-20*np.log10(2)-100)
+pl.title("Spectrogram of a signal back-propagated to the first pixel of the grid")
 
 
 bf_t = Beamforming_t_traj(geom,np.array([pos[1,:]]),traj,t,Sig,ang,t_traj)

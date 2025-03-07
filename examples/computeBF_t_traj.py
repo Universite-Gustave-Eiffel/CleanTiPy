@@ -2,12 +2,10 @@
 """
 This script is an example of use of InverseMethods library using time domain 
 generated signal simulated using the Propagation library.
---Moving source--
 
+- Test Case : Moving source in straight line (no rotation on any axis)
+- Analysis : Single beamforming analysis along all the trajectory
 
--------------------------------------
-Created on Apr 05 2022
-@author: rleiba
 """
 # import sys
 # sys.path.insert(0, '..')
@@ -91,11 +89,12 @@ else:
 
 # Check Dopplerization
 pl.figure()
-pl.specgram(Sig[0,:],2048,fs,noverlap=1024)
+pl.specgram(Sig[0,:],NFFT=2048,Fs=fs,noverlap=1024)
+pl.title("Spectrogram of the progated signal to the first microphone of the array")
 
-# Check Dopplerization
-pl.figure()
-pl.plot(Sig[0,:])
+# # Check Dopplerization
+# pl.figure()
+# pl.plot(Sig[0,:])
 
 
 del simu
@@ -114,11 +113,12 @@ ax.set_aspect('equal')
 bf_t.compute(parrallel=True, interpolation='quadratic')
 
 # Check de-Dopplerization
-pl.figure()
-pl.plot(bf_t.BF_t[0,:])
+# pl.figure()
+# pl.plot(bf_t.BF_t[0,:])
 
 pl.figure()
-pl.specgram(bf_t.BF_t[0,:],2048,fs,noverlap=1024,vmin=-20*np.log10(2)-100)
+pl.specgram(bf_t.BF_t[0,:],NFFT=2048,Fs=fs,noverlap=1024,vmin=-20*np.log10(2)-100)
+pl.title("Spectrogram of a signal back-propagated to the first pixel of the grid")
 
 
 #%% define image plan relatively to the trajectory

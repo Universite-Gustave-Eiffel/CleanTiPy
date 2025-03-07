@@ -2,26 +2,25 @@
 """
 This script is an example of use of CleanT Class in DeconvolutionMethods 
 library using time domain generated signal simulated using the Simulations library.
---Moving source--
+
+- Test Case : Moving source with rotation on 3 axes
+- Analysis : Multiple CLEAN-T run on different angular window along the trajectory
 
 
--------------------------------------
-Created on Jun 19 2023
-@author: rleiba
 """
-import sys
-sys.path.insert(0, '..')
+# import sys
+# sys.path.insert(0, '..')
 
-from Propagation import MovingSrcSimu_t
+from cleantipy.Propagation import MovingSrcSimu_t
 import numpy as np
 import pylab as pl
 import scipy.io as io
 from Sarradj_2016_array import MicArrayGeom
-from DeconvolutionMethods import CleanT, CleantMap
+from cleantipy.DeconvolutionMethods import CleanT, CleantMap
 
 pl.close('all')
-# pl.style.use(['seaborn-v0_8','..\..\GoFast\Scripts\presentation.mplstyle'])
 
+# Set to "True" if forcing recomputation is needed
 compute = False
 
 
@@ -78,7 +77,7 @@ ax.set_ylim(-100,100)
 if compute: 
     try:
         print("** Computing microphone signals **")
-        simu.compute(parrallel=False,interpolation="quadratic")
+        simu.compute(parrallel=True,interpolation="quadratic")
         Sig = simu.p_t
         io.savemat('SimuAngles.mat',{'Sig':Sig})
     except :
@@ -86,17 +85,23 @@ if compute:
         Sig = tmp['Sig']
 
 else:
-    tmp = io.loadmat('SimuAngles.mat',variable_names=['Sig'])
-    Sig = tmp['Sig']
+    try:
+        tmp = io.loadmat('SimuAngles.mat',variable_names=['Sig'])
+        Sig = tmp['Sig']
+    except :
+        print("** SimuAngles.mat not found: Computing microphone signals **")
+        simu.compute(parrallel=True,interpolation="quadratic")
+        Sig = simu.p_t
+        io.savemat('SimuAngles.mat',{'Sig':Sig})
+
+del simu
 
 
 # Check Dopplerization
 pl.figure()
-pl.specgram(Sig[0,:],2048,fs,noverlap=1024)
+pl.specgram(Sig[0,:],NFFT=2048,Fs=fs,noverlap=1024)
+pl.title("Spectrogram of the progated signal to the first microphone of the array")
 
-# # Check Dopplerization
-# pl.figure()
-# pl.plot(Sig[0,:])
 
 # toto
 
@@ -125,7 +130,7 @@ print(69*'*')
 print("** Starting CLEAN-T computation on a grid following the trajectory **")
 print(69*'*')
 
-cleant = CleanT(geom,grid,traj,t,Sig,ang,t_traj,angleSelection=AngleWindows,debug=True)
+cleant = CleanT(geom,grid,traj,t,Sig,ang,t_traj,angleSelection=AngleWindows,debug=False, monitor=False)
 
 cleant.bf.plot()
 ax=pl.gca()
@@ -148,8 +153,9 @@ cleant.compute(parrallel=True)
 cleant.printSourceData()
 
 #%% Compute CLEAN-T Map
-dyn = 15
-CleantMap(cleant,gauss=True,dyn=dyn)
+dyn = 15 # Dynamic range of results display in dB
+normalisedByMax = False # if True, data are normalised by maximum, if False dislay is given in dB ref 20µPa
+CleantMap(cleant,gauss=True,dyn=dyn,sameDynRange=False,adym=normalisedByMax)
 
 #%% Display results on grid along the trajectory
 N_w = len(cleant.Sources)
@@ -175,7 +181,11 @@ for ww in range(N_w):
               extent=[x_F[0],x_F[-1],y_F[0],y_F[-1]], cmap='RdBu',
               vmin=-dyn,vmax=dyn,interpolation_stage='data')
     cbar = fig.colorbar(img, ax=ax,ticks=[-dyn, 0, dyn],location="bottom")
-    cbar.ax.set_xticklabels([0, -dyn, 0])
+    if normalisedByMax:
+        cbar.ax.set_xticklabels([0, -dyn, 0])
+    else:
+        cbar.ax.set_xticklabels(['%.1f' %(cleant.qmax_bb[ww]),\
+                                '%d' %(-dyn), '%.1f' %(cleant.qmax_ton[ww])])
     # cbar.ax.set_title('[dB]')
     cbar.set_label('Broadband               Tonal       ', fontstyle='italic', labelpad=-13)
 
@@ -187,3 +197,5 @@ for ww in range(N_w):
 
 
 
+
+# %%

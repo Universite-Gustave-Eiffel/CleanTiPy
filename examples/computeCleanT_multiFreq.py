@@ -2,12 +2,10 @@
 """
 This script is an example of use of CleanT Class in DeconvolutionMethods 
 library using time domain generated signal simulated using the Propagation library.
---Moving source with angular variation of the source--
 
+- Test Case : Moving source with rotation on 3 axes
+- Analysis : Multiple CLEAN-T analysis for different frequency bands along all the trajectory
 
--------------------------------------
-Created on Jun 19 2023
-@author: rleiba
 """
 # import sys
 # sys.path.insert(0, '..')
@@ -101,7 +99,8 @@ del simu
 
 # Check Dopplerization
 pl.figure()
-pl.specgram(Sig[0,:],2048,fs,noverlap=1024)
+pl.specgram(Sig[0,:],NFFT=2048,Fs=fs,noverlap=1024)
+pl.title("Spectrogram of the progated signal to the first microphone of the array")
 
 #%% define image plan relatively to the trajectory
 
@@ -125,12 +124,15 @@ print(69*'*')
 cleanT_MultiFreq = MultiFreqCleanT(geom,grid,traj,t,Sig,ang,t_traj=t_traj,\
                                    debug=False,fc=[400,800],bandtype='octave')
 
-dyn = 15
+dyn = 15 # Dynamic range of results display in dB
+normalisedByMax = False # if True, data are normalised by maximum, if False dislay is given in dB ref 20µPa
+
 cleanT_MultiFreq.ComputeCleanT(dyn = dyn)
 
 # Check Dopplerization
 pl.figure()
-pl.specgram(cleanT_MultiFreq.CleanTObjects[0].Sig[0,:],2048,cleanT_MultiFreq.CleanTObjects[0].fs,noverlap=1900)
+pl.specgram(cleanT_MultiFreq.CleanTObjects[0].Sig[0,:],NFFT=2048,Fs=cleanT_MultiFreq.CleanTObjects[0].fs,noverlap=1900)
+pl.title("Spectrogram of a signal back-propagated to the first pixel of the grid")
 
 
 #%% Display results on grid along the trajectory
@@ -160,14 +162,18 @@ for ff in range(Nb_res):
         ax = axs[1]
     else:
         ax = axs[1,ff]
-    CleantMap(cleanT_MultiFreq.CleanTObjects[ff],gauss=True,dyn=dyn,sameDynRange=True) 
+    CleantMap(cleanT_MultiFreq.CleanTObjects[ff],gauss=True,dyn=dyn,sameDynRange=False,adym=normalisedByMax) 
     
     img = ax.imshow(cleanT_MultiFreq.CleanTObjects[ff].q_disp, origin='lower',
               extent=[x_F[0],x_F[-1],y_F[0],y_F[-1]], cmap='RdBu',
               vmin=-dyn,vmax=dyn,interpolation_stage='data')
     cbar = fig.colorbar(img, ax=ax,\
                         ticks=[-dyn, 0, dyn],location="bottom")
-    cbar.ax.set_xticklabels(['%.1f' %(cleanT_MultiFreq.CleanTObjects[ff].qmax_bb), '%d' %(-dyn), '%.1f' %(cleanT_MultiFreq.CleanTObjects[ff].qmax_ton)])
+    if normalisedByMax:
+        cbar.ax.set_xticklabels([0, -dyn, 0])
+    else:
+        cbar.ax.set_xticklabels(['%.1f' %(cleanT_MultiFreq.CleanTObjects[ff].qmax_bb),\
+                                '%d' %(-dyn), '%.1f' %(cleanT_MultiFreq.CleanTObjects[ff].qmax_ton)])
     # cbar.ax.set_title('[dB]')
     cbar.set_label('Broadband               Tonal       ', fontstyle='italic', labelpad=-13)
     

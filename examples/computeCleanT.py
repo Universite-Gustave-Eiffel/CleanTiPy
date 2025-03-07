@@ -2,12 +2,10 @@
 """
 This script is an example of use of CleanT Class in DeconvolutionMethods 
 library using time domain generated signal simulated using the Simulations library.
---Moving source with angular variation of the source--
 
+- Test Case : Moving source with rotation on 3 axes
+- Analysis : Single CLEAN-T analysis along all the trajectory
 
--------------------------------------
-Created on Jun 19 2023
-@author: rleiba
 """
 # import sys
 # sys.path.insert(0, '..')
@@ -101,7 +99,8 @@ del simu
 
 # Check Dopplerization
 pl.figure()
-pl.specgram(Sig[0,:],2048,fs,noverlap=1024)
+pl.specgram(Sig[0,:],NFFT=2048,Fs=fs,noverlap=1024)
+pl.title("Spectrogram of the progated signal to the first microphone of the array")
 
 #%% define image plan relatively to the trajectory
 
@@ -141,8 +140,10 @@ cleant.printSourceData()
 
 #%% Display results on grid along the trajectory
 
-dyn = 15
-cleant.CleantMap(gauss=True,dyn=dyn)
+dyn = 15 # Dynamic range of results display in dB
+normalisedByMax = False # if True, data are normalised by maximum, if False dislay is given in dB ref 20µPa
+cleant.CleantMap(gauss=True,dyn=dyn,sameDynRange=False,adym=normalisedByMax)
+
 
 fig, axs = pl.subplots(2,1, 
                        num='CLEAN-T vs BF', 
@@ -163,7 +164,11 @@ img = ax.imshow(cleant.q_disp, origin='lower',
           extent=[x_F[0],x_F[-1],y_F[0],y_F[-1]], cmap='RdBu',
           vmin=-dyn,vmax=dyn,interpolation_stage='data')
 cbar = fig.colorbar(img, ax=ax,ticks=[-dyn, 0, dyn],location="bottom")
-cbar.ax.set_xticklabels([0, -dyn, 0])
+if normalisedByMax:
+    cbar.ax.set_xticklabels([0, -dyn, 0])
+else:
+    cbar.ax.set_xticklabels(['%.1f' %(cleant.qmax_bb),\
+                            '%d' %(-dyn), '%.1f' %(cleant.qmax_ton)])
 # cbar.ax.set_title('[dB]')
 cbar.set_label('Broadband               Tonal       ', fontstyle='italic', labelpad=-13)
 

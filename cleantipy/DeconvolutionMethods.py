@@ -274,8 +274,11 @@ class CleanT:
                 # pl.plot(f[:nfft//2-N_av//2],bgNoise[:nfft//2-N_av//2])
                 axd['upper right'].semilogy(f[:nfft//2],spec[i_ton,:nfft//2])
                 axd['upper right'].plot(f[N_av//2:nfft//2-N_av//2],bgNoise[i_ton,N_av//2:nfft//2-N_av//2])
+                axd['upper right'].set_title("Spectrum at tonal maxima")
+                axd['upper right'].legend(['Spectrum',"background"])
                 axd['lower right'].semilogy(f[:nfft//2],Spec[i_ton,:])
                 axd['lower right'].plot([f[0], f[nfft//2-1]],[np.median(Spec[i_bb,:]), np.median(Spec[i_bb,:])])
+                axd['lower right'].set_title("Whitened spectrum")
                 
                 axd['center'].imshow(dB_.reshape((self.ny,self.nx)),\
                         origin='lower',cmap='hot_r',\
@@ -284,10 +287,14 @@ class CleanT:
                 axd['center'].scatter(self.grid[i_ton,0],self.grid[i_ton,1])
                 axd['center'].scatter(self.grid[i_bb,0],self.grid[i_bb,1])
                 axd['center'].legend(['Max Tonal','MAX Broadband'],loc='lower center',ncol=2)
+                axd['center'].set_title("Beamforming map")
+
                 axd['left'].imshow(self.MaxTonalMap,\
                         origin='lower',cmap='hot_r',\
                             extent=[self.grid[0,0],self.grid[-1,0],self.grid[0,1],self.grid[-1,1]])
-                fig.suptitle(self.tonal_crit)
+                axd['left'].set_title("Tonality criteria map - max= %.1f - Threshold=%.1f" %(self.tonal_crit,tonal_threshold))
+
+                # fig.suptitle(self.tonal_crit)
                 directory = "monitor"
                 Path(directory).mkdir(parents=True, exist_ok=True)
                 if aa is None:
@@ -756,7 +763,7 @@ class CleanT:
             for ww in range(len(self.Sources)):
                 print("****** Angular window: %.1f-%.1f° ******" %(self.angleSelection[ww,0],self.angleSelection[ww,1]))
                 for i, source in enumerate(self.Sources[ww]):
-                    level = 20*np.log10(np.std(source['SourceSignal'])/self.p_ref)
+                    level = 20*np.log10(np.std(source['SourceSignal'])/np.std(source['TemporalMask'])/self.p_ref)
                         
                     print('%s - %.1f dB - Pos.: x:%2.1f\ty:%2.1f\tz:%2.1f (rel. traj.) - E: %.1f%%'\
                           %(Types[source['Type']],level,\
@@ -1048,13 +1055,13 @@ def CleantMap_core(Sources,nx,ny,nz,gauss,sameDynRange,dyn,p_ref,adym,reverse=Fa
     
     for ii, source in enumerate(Sources):
         if len(source['SourceSignal']) > 1:
-            Energy = np.std(source['SourceSignal'])**2
+            Energy = np.std(source['SourceSignal'])**2/np.std(source['TemporalMask'])**2
             if source['Type'] == 1:
                 q_ton[source['SourceIndex']] += Energy
             else:
                 q_bb[source['SourceIndex']] += Energy
         else: # When charging data from Matlab format, adding extra empty dimentions
-            Energy = np.std(source['SourceSignal'][0,0])**2
+            Energy = np.std(source['SourceSignal'][0,0])**2/np.std(source['TemporalMask'][0,0])**2
             if source['Type'] == 1:
                 q_ton[source['SourceIndex'][0,0]] += Energy
             else:
