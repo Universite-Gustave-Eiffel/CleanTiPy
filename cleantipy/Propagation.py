@@ -292,7 +292,7 @@ class MovingSrcSimu_t ():
 
         
     def plot(self):
-        fig=pl.figure(figsize=(8,5))
+        fig=pl.figure(figsize=(8,5), facecolor='none')
         ax0 = fig.add_subplot(projection='3d')
         ax0.set_aspect('auto')
         ax0.scatter(self.geom[:,0],self.geom[:,1],self.geom[:,2])

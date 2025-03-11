@@ -103,10 +103,6 @@ pl.specgram(Sig[0,:],NFFT=2048,Fs=fs,noverlap=1024)
 pl.title("Spectrogram of the progated signal to the first microphone of the array")
 
 
-# toto
-
-
-del simu
 
 #%% define image plan relatively to the trajectory
 

@@ -451,8 +451,27 @@ class CleanT:
         else:
             self.compute_core(parrallel,QuantFirstIter)
 
+    # def compute(self,parrallel=True,QuantFirstIter=False):
+    #     self.Sources = list()
+    #     self.E = list() #Energy for each iteration
+        
+        
+    #     if self.angleSelection is not None :
+    #         for aa in range(len(self.angleSelection)):
+    #             # Set environements for each angular window
+    #             self.Sources.append(list())
+    #             self.E.append(list())
+
+    #             self.compute_core_windowed(parrallel,QuantFirstIter,aa)
+    #     else:
+    #         # Set environements for the only angular window
+    #         self.Sources.append(list())
+    #         self.E.append(list())
+    #         self.compute_core_windowed(parrallel,QuantFirstIter,0)
+
     def compute_core_windowed(self,parrallel,QuantFirstIter,aa):
-        print("****** Angular window: %.1f-%.1f° ******" %(self.angleSelection[aa,0],self.angleSelection[aa,1]))
+        if self.angleSelection is not None :
+            print("****** Angular window: %.1f-%.1f° ******" %(self.angleSelection[aa,0],self.angleSelection[aa,1]))
         # Mic_E = list()
         
         # # Propagate the temporal (angular) mask for grid center
@@ -731,7 +750,8 @@ class CleanT:
                                     'SourceRelatedTimeVector':self.propa.t_traj_interp,\
                                     'MaxTonalMap':self.MaxTonalMap,\
                                     'TonalCriterion':self.tonal_crit,\
-                                    'RemainingEnergy':self.E[-1]/self.E[0]})
+                                    'RemainingEnergy':self.E[-1]/self.E[0],\
+                                    'TemporalMask':np.ones_like(self.bf_single_pt.BF_t[0,:])})
             else:        
                 self.Sources.append({'SourceSignal':self.propa.sig.T, \
                                    'SourceIndex':i_max, \
@@ -739,11 +759,12 @@ class CleanT:
                                    'AcousticMap':dB_,\
                                    'Type':src_type,\
                                    'SourceRelatedTimeVector':self.propa.t_traj_interp,\
-                                   'RemainingEnergy':self.E[-1]/self.E[0]})
+                                   'RemainingEnergy':self.E[-1]/self.E[0],\
+                                   'TemporalMask':np.ones_like(self.bf_single_pt.BF_t[0,:])})
 
             
-    def CleantMap(self,gauss=True,dyn=30,sameDynRange=True,adym=False,sig=0.5):
-        CleantMap(self,gauss=gauss,dyn=dyn,sameDynRange=sameDynRange,adym=adym,sig=sig)
+    def CleantMap(self,gauss=True,dyn=30,sameDynRange=True,adym=False,sig=0.5,sigThreshold=2e-5):
+        CleantMap(self,gauss=gauss,dyn=dyn,sameDynRange=sameDynRange,adym=adym,sig=sig,sigThreshold=sigThreshold)
           
                 
     def printSourceData(self):
@@ -1010,7 +1031,7 @@ class MultiFreqCleanT:
                                 'ComputationTime':t2-t1})
             del cleant
 
-def CleantMap(CleantObj,gauss=True,dyn=30,sameDynRange=True,adym=False,reverse=False,sig=0.5):
+def CleantMap(CleantObj,gauss=True,dyn=30,sameDynRange=True,adym=False,reverse=False,sig=0.5,sigThreshold=2e-5):
 
     nx = np.unique(CleantObj.grid[:,0]).size
     ny = np.unique(CleantObj.grid[:,1]).size
@@ -1027,20 +1048,20 @@ def CleantMap(CleantObj,gauss=True,dyn=30,sameDynRange=True,adym=False,reverse=F
         # Loop over angular windows
         for ww, Sources in enumerate(CleantObj.Sources):
             q_disp, qmax_bb, qmax_ton = CleantMap_core(Sources,nx,ny,nz,\
-                                        gauss,sameDynRange,dyn,CleantObj.p_ref,adym,reverse,sig)
+                                        gauss,sameDynRange,dyn,CleantObj.p_ref,adym,reverse,sig,sigThreshold)
             
             CleantObj.q_disp.append(q_disp)
             CleantObj.qmax_bb.append(qmax_bb)
             CleantObj.qmax_ton.append(qmax_ton)
     else:
         q_disp, qmax_bb, qmax_ton = CleantMap_core(CleantObj.Sources,nx,ny,nz,\
-                                    gauss,sameDynRange,dyn,CleantObj.p_ref,adym,reverse,sig)
+                                    gauss,sameDynRange,dyn,CleantObj.p_ref,adym,reverse,sig,sigThreshold)
         CleantObj.q_disp = q_disp
         CleantObj.qmax_bb = qmax_bb
         CleantObj.qmax_ton = qmax_ton
         
 
-def CleantMap_core(Sources,nx,ny,nz,gauss,sameDynRange,dyn,p_ref,adym,reverse=False,sig=0.1):
+def CleantMap_core(Sources,nx,ny,nz,gauss,sameDynRange,dyn,p_ref,adym,reverse=False,sig=0.1,sigThreshold=2e-5):
     Ni = nx*ny*nz
     if reverse:
         n2=nx
@@ -1054,14 +1075,29 @@ def CleantMap_core(Sources,nx,ny,nz,gauss,sameDynRange,dyn,p_ref,adym,reverse=Fa
 
     
     for ii, source in enumerate(Sources):
+        if sigThreshold is not None:
+            # Select indices to remove data points at the extremety of the signal with low values (~0dB) 
+            # for a better estimation of the noise levels
+            indNotZero = np.where(np.abs(source['SourceSignal'])>=sigThreshold)
+            indNotZero = np.arange(indNotZero[0][-1]-indNotZero[0][0])+indNotZero[0][0]
+        else:
+            # Keeps all the signal length
+            indNotZero = np.arange(len(source['SourceSignal']))
+
         if len(source['SourceSignal']) > 1:
-            Energy = np.std(source['SourceSignal'])**2/np.std(source['TemporalMask'])**2
+            if np.std(source['TemporalMask']**2)!=0:
+                Energy = np.sum(source['SourceSignal'][indNotZero]**2)/np.sum(source['TemporalMask']**2)
+            else:
+                Energy = np.std(source['SourceSignal'][indNotZero])**2
             if source['Type'] == 1:
                 q_ton[source['SourceIndex']] += Energy
             else:
                 q_bb[source['SourceIndex']] += Energy
         else: # When charging data from Matlab format, adding extra empty dimentions
-            Energy = np.std(source['SourceSignal'][0,0])**2/np.std(source['TemporalMask'][0,0])**2
+            if np.std(source['TemporalMask']**2)!=0:
+                Energy = np.sum(source['SourceSignal'][0,0][indNotZero]**2)/np.sum(source['TemporalMask'][0,0]**2)
+            else:
+                Energy = np.std(source['SourceSignal'][0,0][indNotZero])**2
             if source['Type'] == 1:
                 q_ton[source['SourceIndex'][0,0]] += Energy
             else:
