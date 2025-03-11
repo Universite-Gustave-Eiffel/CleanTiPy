@@ -71,13 +71,5 @@ CleanTiPy is licensed under the EUPL-1.2. See [LICENSE](LICENSE.txt)
 
 ## Project status
 
-Ready for production realse but still in active development
+Ready for production release but still in active development
 
-
-## Packaging
-
-Reminder: to make the code a python package use :
-
-```
-py -m build
-```

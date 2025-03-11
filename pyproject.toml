@@ -1,6 +1,6 @@
 [project]
 name = "CleanTiPy"
-version = "0.6.1"
+version = "0.6.2"
 authors = [
   { name="Raphaël LEIBA", email="raphael.leiba@univ-eiffel.fr" },
 ]
