@@ -13,7 +13,7 @@ It is based on the work published in [Cousson *et al.*](https://doi.org/10.1016/
 
 ## Installation
 
-This code is developed in Python 3.11 and therefore back-compatibility is not guaranteed.
+This code has been developed in Python 3.11 and therefore back-compatibility is not guaranteed.
 
 Install the required packages with pip:
 
@@ -43,11 +43,8 @@ Same example can be found as notebook [here](https://github.com/Universite-Gusta
 
 ## Documentation
 
-The full documentation of the project is available in pdf [here](https://github.com/Universite-Gustave-Eiffel/CleanTiPy/blob/main/docs/build/latex/cleantipy.pdf). It can also be built locally using
+The full documentation of the project is available on [ReadTheDocs](https://cleantipy.readthedocs.io/)
 
-```
-sphinx-build -b html docs/source/ docs/build/html
-```
 
 ## Support
 
