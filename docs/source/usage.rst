@@ -22,7 +22,15 @@ Installation
 
 This code is developed in Python 3.11 and therefore back-compatibility is not guaranteed.
 
-Install the required packages with
+
+Install the package with
+
+.. code-block:: console
+
+    pip install cleantipy
+
+
+If installing from grithub repo: install the required packages with
 
 .. code-block:: console
 

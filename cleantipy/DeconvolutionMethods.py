@@ -104,6 +104,7 @@ class CleanT:
         self.theta = theta
         self.nx = np.unique(self.grid[:,0]).size
         self.ny = np.max([np.unique(self.grid[:,1]).size,np.unique(self.grid[:,2]).size])
+        self.n_secDim = np.argmax([np.unique(self.grid[:,1]).size,np.unique(self.grid[:,2]).size])+1
         self.fc = fc
         self.Mach_w = Mach_w
         self.findTonal = findTonal
@@ -139,7 +140,8 @@ class CleanT:
             self.t_traj = self.t_traj[ind_total_masks]
             self.traj = self.traj[ind_total_masks,:]
             self.Nt_traj = len(ind_total_masks)
-            self.angles = self.angles[ind_total_masks,:]
+            if self.angles is not None :
+                self.angles = self.angles[ind_total_masks,:]
             
             self.t_traj_interp = InterpolateTimeTrajectory(self.t_traj,self.fs)
             self.Nt_interp = self.t_traj_interp.size
@@ -236,7 +238,7 @@ class CleanT:
                     bgNoise[ii,N_av//2:nfft//2-N_av//2] = tmp[ii][2][N_av//2:nfft//2-N_av//2]
             else:
                 for ii in range(self.bf.Ni):
-                    tmp = compute_spectrum_core(self.bf.BF_t[ii,:self.indsMask[:Nt_]],Mask[:Nt_],N_av,nfft,self.bf.fs)#[N_av//2:nfft//2-N_av//2]
+                    tmp = compute_spectrum_core(self.bf.BF_t[ii,self.indsMask[:Nt_]],Mask[:Nt_],N_av,nfft,self.bf.fs)#[N_av//2:nfft//2-N_av//2]
                     f = tmp[0]
                     spec[ii,N_av//2:nfft//2-N_av//2] = tmp[1][N_av//2:nfft//2-N_av//2]
                     bgNoise[ii,N_av//2:nfft//2-N_av//2] = tmp[2][N_av//2:nfft//2-N_av//2]
@@ -254,8 +256,19 @@ class CleanT:
             
             i_ton = np.argmax(tonalIndicator)
             self.tonal_crit = np.max(Spec[i_ton,:])
-        
-            self.MaxTonalMap = tonalIndicator.reshape((self.ny,self.nx))
+            
+            
+            # Checks which reshape order to use as depending on the orientation
+            # of the grid (x,y), (x,z), or (y,z) it can need different reshape
+            # Method : it checks the discontinuities
+            if np.mean(np.std(np.diff(dB_.reshape((self.nx,self.ny))))) < np.mean(np.std(np.diff(dB_.reshape((self.ny,self.nx))))):
+                N1 = self.nx
+                N2 = self.ny
+            else:
+                N1 = self.ny
+                N2 = self.nx                
+            
+            self.MaxTonalMap = tonalIndicator.reshape((N1,N2)).T
 
             tonal_threshold = 20*(np.floor(np.log10(self.fs_traj))+1)
             # if self.fc is None:
@@ -280,18 +293,18 @@ class CleanT:
                 axd['lower right'].plot([f[0], f[nfft//2-1]],[np.median(Spec[i_bb,:]), np.median(Spec[i_bb,:])])
                 axd['lower right'].set_title("Whitened spectrum")
                 
-                axd['center'].imshow(dB_.reshape((self.ny,self.nx)),\
+                axd['center'].imshow(dB_.reshape((N1,N2)).T,\
                         origin='lower',cmap='hot_r',\
-                            extent=[self.grid[0,0],self.grid[-1,0],self.grid[0,1],self.grid[-1,1]],\
+                            extent=[self.grid[0,0],self.grid[-1,0],self.grid[0,self.n_secDim],self.grid[-1,self.n_secDim]],\
                                 vmax=self.debug_max_disp,vmin=self.debug_max_disp-30)
-                axd['center'].scatter(self.grid[i_ton,0],self.grid[i_ton,1])
-                axd['center'].scatter(self.grid[i_bb,0],self.grid[i_bb,1])
+                axd['center'].scatter(self.grid[i_ton,0],self.grid[i_ton,self.n_secDim])
+                axd['center'].scatter(self.grid[i_bb,0],self.grid[i_bb,self.n_secDim])
                 axd['center'].legend(['Max Tonal','MAX Broadband'],loc='lower center',ncol=2)
                 axd['center'].set_title("Beamforming map")
 
                 axd['left'].imshow(self.MaxTonalMap,\
                         origin='lower',cmap='hot_r',\
-                            extent=[self.grid[0,0],self.grid[-1,0],self.grid[0,1],self.grid[-1,1]])
+                            extent=[self.grid[0,0],self.grid[-1,0],self.grid[0,self.n_secDim],self.grid[-1,self.n_secDim]])
                 axd['left'].set_title("Tonality criteria map - max= %.1f - Threshold=%.1f" %(self.tonal_crit,tonal_threshold))
 
                 # fig.suptitle(self.tonal_crit)
@@ -358,27 +371,36 @@ class CleanT:
         t_new = self.t_traj_interp
         centeredTraj_interp = np.array([interpolator_x(t_new),interpolator_y(t_new),interpolator_z(t_new)]).T
         
-
+        #to take into account the direction of the trajectory (left to right or right to left)
+        direction = np.sign(np.mean(np.diff(self.traj[:,main_direction]))) # equal -1 if values go from positif to negatif, 1 otherwise 
         for aa in range(len(self.angleSelection)):
             limits = self.angleSelection[aa,:]/180*np.pi
-            if np.diff(np.abs(limits)) == 0 or np.sign(limits[0])==-1 and np.sign(limits[1])==-1:
-                i_max = np.argmax(limits)
-                i_min = np.argmin(limits)
-            else:
-                i_max = np.argmax(np.abs(limits))
-                i_min = np.argmin(np.abs(limits))
+            # if np.diff(np.abs(limits)) == 0 or np.sign(limits[0])==-1 and np.sign(limits[1])==-1:
+            #     i_max = np.argmax(limits)
+            #     i_min = np.argmin(limits)
+            # else:
+            #     i_max = np.argmax(np.abs(limits))
+            #     i_min = np.argmin(np.abs(limits))
+            i_min = 0
+            i_max = 1
 
             for tt in range(len(self.t_traj_interp)):
                 xyz_min = np.tan(limits[i_min])*centeredTraj_interp[tt,orth_direction]
                 xyz_max = np.tan(limits[i_max])*centeredTraj_interp[tt,orth_direction]
                 
-                #to take into account the direction of the trajectory (left to right or right to left)
-                xyz_min *= np.sign(np.mean(np.diff(self.traj[:,main_direction])))
-                xyz_max *= np.sign(np.mean(np.diff(self.traj[:,main_direction])))
+                # if xyz_min==0 or xyz_max==0 :
+                #     #to take into account the direction of the trajectory (left to right or right to left)
+                #     xyz_min *= direction
+                #     xyz_max *= direction
                 
+                # if centeredTraj_interp[tt,main_direction]*direction <= xyz_max and centeredTraj_interp[tt,main_direction]*direction >= xyz_min :
                 if centeredTraj_interp[tt,main_direction] <= xyz_max and centeredTraj_interp[tt,main_direction] >= xyz_min :
                     TrajMask[aa,tt] = 1  # binary mask : 0 or 1
             
+            # Checking that there is at least one 1
+            if np.sum(TrajMask[aa,:])==0:
+                print("[Clean-T init] Angular selection of trajectory could not be done for [%d , %d]. Make sure the angular selection is wide enough." %(self.angleSelection[aa,0],self.angleSelection[aa,1]))
+                sys.exit()
             
             # Number of temporal points for smoothing the angular window
             smoothing_pt = np.floor(self.fs/25)*2+1 # needs to be odd and to vary with fs
@@ -391,7 +413,10 @@ class CleanT:
             self.TemporalMask[aa,:] = np.convolve(TrajMask[aa,:], \
                                                   win, mode='same')
             
-        self.theta = np.arctan(centeredTraj_interp[:,main_direction]/centeredTraj_interp[:,2])*180/np.pi
+        self.theta = np.arctan(centeredTraj_interp[:,main_direction]/centeredTraj_interp[:,orth_direction])*180/np.pi
+        self.centeredTraj_interp = centeredTraj_interp
+        self.traj_main_direction = main_direction
+        self.traj_orth_direction = orth_direction
 
 
     def computeAngleWindows_traj(self):
@@ -416,20 +441,22 @@ class CleanT:
         
         for aa in range(len(self.angleSelection)):
             limits = self.angleSelection[aa,:]/180*np.pi
-            if np.diff(np.abs(limits)) == 0 or np.sign(limits[0])==-1 and np.sign(limits[1])==-1:
-                i_max = np.argmax(limits)
-                i_min = np.argmin(limits)
-            else:
-                i_max = np.argmax(np.abs(limits))
-                i_min = np.argmin(np.abs(limits))
+            # if np.diff(np.abs(limits)) == 0 or np.sign(limits[0])==-1 and np.sign(limits[1])==-1:
+            #     i_max = np.argmax(limits)
+            #     i_min = np.argmin(limits)
+            # else:
+            #     i_max = np.argmax(np.abs(limits))
+            #     i_min = np.argmin(np.abs(limits))
+            i_min = 0
+            i_max = 1
 
             for tt in range(len(self.traj)):
                 xyz_min = np.tan(limits[i_min])*centeredTraj[tt,orth_direction]
                 xyz_max = np.tan(limits[i_max])*centeredTraj[tt,orth_direction]
                 
-                #to take into account the direction of the trajectory (left to right or right to left)
-                xyz_min *= np.sign(np.mean(np.diff(self.traj[:,main_direction])))
-                xyz_max *= np.sign(np.mean(np.diff(self.traj[:,main_direction])))
+                # #to take into account the direction of the trajectory (left to right or right to left)
+                # xyz_min *= np.sign(np.mean(np.diff(self.traj[:,main_direction])))
+                # xyz_max *= np.sign(np.mean(np.diff(self.traj[:,main_direction])))
                 
                 if centeredTraj[tt,main_direction] <= xyz_max and centeredTraj[tt,main_direction] >= xyz_min :
                     self.TrajMask[aa,tt] = 1  # binary mask : 0 or 1
@@ -498,19 +525,28 @@ class CleanT:
                 self.bf.QuantitativeComputation=True
                 self.bf.compute(parrallel=parrallel, interpolation='linear')
                 self.bf.QuantitativeComputation=False
+                
+                # Compute the acoustic map (over the angular window) with Quantitative Computation
+                p_eff = np.std(self.bf.BF_t[:,self.indsMask]*self.TemporalMask[aa,self.indsMask],axis=-1)
+                dB_ = 20*np.log10(p_eff/self.p_ref)
+                
+                # Recompute the acoustic map without Quantitative Computation (for energy comparison between iterations)
+                self.bf.compute(parrallel=parrallel, interpolation='linear')
+                p_eff = np.std(self.bf.BF_t[:,self.indsMask]*self.TemporalMask[aa,self.indsMask],axis=-1)
+                
             else:
                 self.bf.compute(parrallel=parrallel, interpolation='linear')
 
+                # Compute the acoustic map (over the angular window)
+                p_eff = np.std(self.bf.BF_t[:,self.indsMask]*self.TemporalMask[aa,self.indsMask],axis=-1)
+                dB_ = 20*np.log10(p_eff/self.p_ref)
                 
-            # Compute the acoustic map (over the angular window)
-            p_eff = np.std(self.bf.BF_t[:,self.indsMask]*self.TemporalMask[aa,self.indsMask],axis=-1)
-            dB_ = 20*np.log10(p_eff/self.p_ref)
+            self.E[aa].append(np.sum(p_eff**2))
             
             
             if nn == 0:
                 self.debug_max_disp = np.max(dB_)
-            
-            self.E[aa].append(np.sum(p_eff**2))
+
             
             print("%d - Residual energy: %.1f%%" %(nn, self.E[aa][-1]*100/self.E[aa][0]))
             if nn>3 :
@@ -530,7 +566,7 @@ class CleanT:
             
             # find the source and its position
             t1 = time.time()
-            i_max, src_type = self.find_max(dB_,aa,parrallel=True)
+            i_max, src_type = self.find_max(dB_,aa,parrallel=parrallel)
             if self.debug:
                 t2 = time.time()
                 print("Finding source position took %.1f s"%(t2-t1))
@@ -794,19 +830,7 @@ class CleanT:
                                     source['RemainingEnergy']*100))
 
     def plot(self):
-        fig=pl.figure(figsize=(8,5))
-        ax0 = fig.add_subplot(projection='3d')
-        ax0.set_aspect('auto')
-        ax0.scatter(self.geom[:,0],self.geom[:,1],self.geom[:,2])
-        TrajPnt = int(self.fs_traj/2) #2 traj points per seconds
-        
-        ax0.scatter(self.traj[::TrajPnt,0],self.traj[::TrajPnt,1],self.traj[::TrajPnt,2])
-        ax0.set_title('Setup (mic in blue , trajectory in orange)')
-        
-        ax0.set_xlabel('x')
-        ax0.set_ylabel('y')
-        ax0.set_zlabel('z')
-        pl.tight_layout()
+        PlotSituation(self)
 
 
 class MultiFreqCleanT:
@@ -902,6 +926,7 @@ class MultiFreqCleanT:
                 self.t_traj = np.arange(traj.shape[0])/self.fs
         else:
             self.t_traj = t_traj
+        self.fs_traj = 1/(self.t_traj[1] - self.t_traj[0])
         
         if bandtype not in ['thirdoctave','octave']:
             sys.exit("bandtype must be 'thirdoctave' or 'octave'")
@@ -1013,7 +1038,7 @@ class MultiFreqCleanT:
                 cleant.plot()
             
             t1 = time.time()
-            cleant.compute(parrallel=parrallel,QuantFirstIter=True)
+            cleant.compute(parrallel=parrallel,QuantFirstIter=False)
             t2 = time.time()
             
             CleantMap(cleant,gauss=True,dyn=dyn)     
@@ -1030,6 +1055,25 @@ class MultiFreqCleanT:
                                 'Central_Microphone_Index':ind_central+1,\
                                 'ComputationTime':t2-t1})
             del cleant
+    def plot(self):
+        PlotSituation(self)
+
+def PlotSituation(CleanTObject):
+    fig=pl.figure(figsize=(8,5))
+    ax0 = fig.add_subplot(projection='3d')
+    ax0.set_box_aspect((np.ptp(np.concatenate((CleanTObject.traj[:,0], CleanTObject.geom[:,0]))), \
+                        np.ptp(np.concatenate((CleanTObject.traj[:,1], CleanTObject.geom[:,1]))), \
+                        np.ptp(np.concatenate((CleanTObject.traj[:,2], CleanTObject.geom[:,2])))))
+    ax0.scatter(CleanTObject.geom[:,0],CleanTObject.geom[:,1],CleanTObject.geom[:,2])
+    TrajPnt = int(CleanTObject.fs_traj/2) #2 traj points per seconds
+    
+    ax0.scatter(CleanTObject.traj[::TrajPnt,0],CleanTObject.traj[::TrajPnt,1],CleanTObject.traj[::TrajPnt,2])
+    ax0.set_title('Setup (mic in blue , trajectory in orange)')
+    
+    ax0.set_xlabel('x')
+    ax0.set_ylabel('y')
+    ax0.set_zlabel('z')
+    # pl.tight_layout()
 
 def CleantMap(CleantObj,gauss=True,dyn=30,sameDynRange=True,adym=False,reverse=False,sig=0.5,sigThreshold=2e-5):
 
@@ -1168,6 +1212,9 @@ def moving_average(x, w):
     return np.convolve(x, np.ones(w), 'valid') / w
 
 def compute_spectrum_core(sig,Mask,N_av,nfft,fs):
+    if sig.size < nfft:
+        sig = np.concatenate((sig, np.zeros((nfft-sig.size,))))
+        Mask = np.concatenate((Mask, np.zeros((nfft-Mask.size,))))
     f, spec = welch((sig-np.mean(sig))*Mask,fs,nfft,noverlap=0,scaling='spectrum')        
     bgNoise = signal.medfilt(spec, N_av)
     
